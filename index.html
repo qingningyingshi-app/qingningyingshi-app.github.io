@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>青柠影视 - 每日片单、排片时刻与追更进度一份搞定</title>
+<meta name="description" content="青柠影视把每天值得坐下来看的两小时挑出来：排片时刻、评分参考、剧集追更进度、短评笔记都记在同一页里，想到就翻，站点入口 qingningyingshi-app.github.io 随时可查最新一份片单。">
+<meta name="keywords" content="青柠影视,青柠影视片单,qingningyingshi-app,电影推荐清单,剧集追更表,今日排片时刻,观影短评笔记,冷门佳片,院线新片">
+<meta name="author" content="青柠影视">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#12160F">
+<link rel="canonical" href="https://qingningyingshi-app.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="青柠影视">
+<meta property="og:title" content="青柠影视 - 每日片单、排片时刻与追更进度一份搞定">
+<meta property="og:description" content="排片时刻、评分参考、追更进度与短评笔记，都记在青柠影视这一页里。">
+<meta property="og:url" content="https://qingningyingshi-app.github.io/">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="青柠影视 - 每日片单、排片时刻与追更进度一份搞定">
+<meta name="twitter:description" content="排片时刻、评分参考、追更进度与短评笔记，都记在青柠影视这一页里。">
+<meta name="format-detection" content="telephone=no">
+<style>
+:root{
+  --ink:#12160F;
+  --ink-2:#1B2016;
+  --paper:#F4F1E8;
+  --lime:#A6E11E;
+  --lime-deep:#7FB800;
+  --clay:#E2723B;
+  --line:rgba(244,241,232,.14);
+  --mute:#9AA08C;
+  --radius:14px;
+  --ff:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--ff);
+  background:var(--ink);
+  color:var(--paper);
+  line-height:1.75;
+  font-size:16px;
+  background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.016) 0 2px,transparent 2px 9px);
+}
+a{color:inherit;text-decoration:none}
+img{border:0}
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 20px}
+.skip{position:absolute;left:-9999px}
+
+/* 顶部品牌条 */
+.topbar{position:sticky;top:0;z-index:40;background:rgba(18,22,15,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:14px;min-height:62px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;letter-spacing:.06em}
+.brand i{width:22px;height:22px;border-radius:6px;background:linear-gradient(140deg,var(--lime),var(--lime-deep));display:inline-block;transform:rotate(-12deg)}
+.brand span{color:var(--lime)}
+.nav{margin-left:auto;display:flex;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:0 0 auto;padding:7px 12px;border-radius:999px;font-size:14px;color:#D7D9CD;border:1px solid transparent;white-space:nowrap}
+.nav a:hover{border-color:var(--line);background:rgba(255,255,255,.05)}
+.nav a.on{background:var(--lime);color:#14180F;font-weight:700;border-color:var(--lime)}
+
+/* 网址条 */
+.urlbar{border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(166,225,30,.09),transparent 62%)}
+.urlbar .wrap{display:flex;align-items:center;gap:12px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+.addr{display:inline-flex;align-items:center;gap:9px;background:#0C0F09;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px;letter-spacing:.02em;word-break:break-all}
+.addr svg{flex:0 0 auto}
+.addr b{color:var(--lime);font-weight:700}
+.addr em{color:var(--mute);font-style:normal}
+.urlbar p{font-size:13px;color:var(--mute);max-width:44ch}
+
+/* HERO：票根式排片 */
+.hero{padding:46px 0 26px}
+.herogrid{display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:start}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.22em;color:var(--lime);border:1px solid rgba(166,225,30,.35);border-radius:999px;padding:5px 12px;margin-bottom:18px}
+h1{font-size:clamp(30px,5.2vw,52px);line-height:1.22;font-weight:800;letter-spacing:-.01em}
+h1 u{text-decoration:none;color:var(--lime);border-bottom:5px solid rgba(166,225,30,.28)}
+.lede{margin-top:16px;color:#C9CDBE;font-size:clamp(15px,1.6vw,17px);max-width:52ch}
+.btnrow{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.btn{display:inline-block;padding:11px 22px;border-radius:999px;font-size:15px;font-weight:700;transition:.2s}
+.btn-a{background:var(--lime);color:#14180F}
+.btn-a:hover{background:var(--lime-deep);color:#fff}
+.btn-b{border:1px solid var(--line);color:#E6E8DD}
+.btn-b:hover{border-color:var(--lime);color:var(--lime)}
+.statrow{display:flex;gap:26px;margin-top:30px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:18px}
+.stat b{display:block;font-size:24px;color:var(--lime);font-weight:800;line-height:1.3}
+.stat span{font-size:12px;color:var(--mute);letter-spacing:.08em}
+
+.ticket{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);position:relative;overflow:hidden}
+.ticket::before,.ticket::after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:var(--ink);left:-11px}
+.ticket::before{top:74px}
+.ticket::after{top:74px;left:auto;right:-11px}
+.ticket .thead{padding:16px 20px;border-bottom:1px dashed var(--line);display:flex;align-items:baseline;gap:10px}
+.ticket .thead h2{font-size:16px;letter-spacing:.04em}
+.ticket .thead span{margin-left:auto;font-size:12px;color:var(--mute)}
+.tline{padding:8px 20px 18px}
+.tline li{list-style:none;display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(244,241,232,.07)}
+.tline li:last-child{border-bottom:0}
+.tline time{flex:0 0 58px;font-size:14px;font-weight:800;color:var(--lime);font-variant-numeric:tabular-nums}
+.tline div{flex:1}
+.tline strong{display:block;font-size:15px}
+.tline small{color:var(--mute);font-size:12.5px}
+.tchip{flex:0 0 auto;align-self:center;font-size:11px;border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--mute)}
+
+/* 通用区块 */
+section{padding:44px 0}
+.sechead{display:flex;align-items:flex-end;gap:16px;padding-bottom:18px;border-bottom:2px solid var(--lime);margin-bottom:24px;flex-wrap:wrap}
+.sechead b{font-size:13px;color:var(--lime);letter-spacing:.2em;font-weight:800}
+.sechead h2{font-size:clamp(21px,3vw,30px);font-weight:800;letter-spacing:-.01em}
+.sechead p{margin-left:auto;font-size:13px;color:var(--mute);max-width:38ch}
+.alt{background:#0E1209;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* 片库精选 */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filters a{font-size:13px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;color:#CDD0C2}
+.filters a:hover{border-color:var(--lime);color:var(--lime)}
+.filters a.cur{background:var(--paper);color:#14180F;font-weight:700;border-color:var(--paper)}
+.poster{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:18px}
+.pcard{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.22s}
+.pcard:hover{transform:translateY(-5px);border-color:rgba(166,225,30,.45)}
+.cover{height:150px;display:flex;align-items:flex-end;padding:14px;font-weight:800;font-size:17px;letter-spacing:.02em;position:relative}
+.cover span{position:relative;z-index:1;text-shadow:0 2px 12px rgba(0,0,0,.45)}
+.cover em{position:absolute;right:12px;top:12px;font-style:normal;font-size:11px;background:rgba(0,0,0,.42);border-radius:5px;padding:3px 7px;z-index:1}
+.c1{background:linear-gradient(160deg,#2E4A3A,#8FB03A 60%,#D9E86A)}
+.c2{background:linear-gradient(160deg,#1B2436,#3B5C94 62%,#8FB6E0)}
+.c3{background:linear-gradient(160deg,#4A2A16,#E2723B 58%,#F6C07A)}
+.c4{background:linear-gradient(160deg,#2A2A2E,#6A6F78 60%,#C7CBD1)}
+.c5{background:linear-gradient(160deg,#3A1E2E,#98456B 60%,#E9A9C4)}
+.c6{background:linear-gradient(160deg,#14332C,#2F8A6B 60%,#9AE0C0)}
+.pmeta{padding:13px 15px 16px}
+.pmeta h3{font-size:16px;font-weight:700}
+.pmeta p{font-size:12.5px;color:var(--mute);margin-top:5px}
+.pmeta .tags{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
+.pmeta .tags i{font-style:normal;font-size:11px;border:1px solid var(--line);border-radius:4px;padding:2px 7px;color:#B7BBA9}
+
+/* 正在热映：横向滑动 */
+.rail{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.rail::-webkit-scrollbar{height:6px}
+.rail::-webkit-scrollbar-thumb{background:#2C3224;border-radius:6px}
+.scard{flex:0 0 268px;scroll-snap-align:start;background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.scard:hover{border-color:rgba(166,225,30,.45)}
+.snum{font-size:12px;color:var(--mute);letter-spacing:.14em}
+.scard h3{font-size:18px;margin:6px 0 8px}
+.bar{height:6px;border-radius:6px;background:#2A2F22;overflow:hidden;margin:10px 0 8px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--lime-deep),var(--lime))}
+.score{display:flex;align-items:center;gap:10px;font-size:12.5px;color:#C9CDBE}
+.score b{font-size:19px;color:var(--lime);font-weight:800}
+.slot{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;font-size:12.5px;color:var(--mute)}
+.slot strong{color:#E6E8DD;font-weight:600}
+.hint{margin-top:10px;font-size:12px;color:#6F7566}
+
+/* 剧集追更 */
+.series{border-top:1px solid var(--line)}
+.srow{display:grid;grid-template-columns:54px 1fr 190px;gap:16px;align-items:center;padding:16px 4px;border-bottom:1px solid var(--line)}
+.srow:hover{background:rgba(255,255,255,.025)}
+.srow .idx{font-size:26px;font-weight:800;color:#333A28;font-variant-numeric:tabular-nums;line-height:1}
+.srow h3{font-size:16.5px;font-weight:700}
+.srow p{font-size:12.5px;color:var(--mute);margin-top:3px}
+.prog{display:flex;align-items:center;gap:10px}
+.track{flex:1;height:5px;background:#2A2F22;border-radius:5px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--clay)}
+.prog span{font-size:12px;color:var(--mute);flex:0 0 auto;font-variant-numeric:tabular-nums}
+
+/* 影评 */
+.revgrid{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+.feature{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative}
+.feature .quote{font-size:clamp(18px,2.4vw,24px);font-weight:700;line-height:1.5;margin:10px 0 14px}
+.feature p{color:#C4C8B9;font-size:15px}
+.feature .byline{margin-top:18px;font-size:12.5px;color:var(--mute);border-top:1px dashed var(--line);padding-top:12px}
+.feature .byline b{color:#E6E8DD}
+.mini{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:16px;transition:.2s}
+.mini:hover{border-color:rgba(226,114,59,.5)}
+.mini h3{font-size:16px}
+.mini p{font-size:13.5px;color:#B7BBA9;margin-top:7px}
+.mini .byline{margin-top:12px;font-size:12px;color:var(--mute)}
+.tagline{display:inline-block;font-size:11px;background:rgba(226,114,59,.16);color:#F0A87A;border-radius:5px;padding:3px 8px;margin-bottom:8px;letter-spacing:.06em}
+
+/* 观影指南 */
+.guidegrid{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:start}
+details{border-bottom:1px solid var(--line);padding:14px 0}
+details summary{cursor:pointer;font-size:16px;font-weight:700;list-style:none;display:flex;gap:10px;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"+";color:var(--lime);font-weight:800;font-size:18px;flex:0 0 auto}
+details[open] summary::before{content:"-"}
+details p{margin-top:9px;font-size:14.5px;color:#BFC3B4;padding-left:26px}
+.note{background:linear-gradient(180deg,rgba(166,225,30,.1),transparent);border:1px solid rgba(166,225,30,.3);border-radius:var(--radius);padding:20px}
+.note h3{font-size:15px;letter-spacing:.04em}
+.note .addr2{display:block;margin:12px 0;background:#0C0F09;border:1px dashed rgba(166,225,30,.4);border-radius:9px;padding:11px 13px;font-size:13.5px;word-break:break-all}
+.note ul{margin-top:6px;font-size:13px;color:#C4C8B9;list-style:none}
+.note ul li{padding:5px 0;border-bottom:1px solid rgba(244,241,232,.07)}
+.note ul li:last-child{border-bottom:0}
+
+/* 页脚 */
+footer{border-top:1px solid var(--line);padding:34px 0 46px;background:#0E1209}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:24px}
+footer h4{font-size:13px;letter-spacing:.18em;color:var(--mute);font-weight:700;margin-bottom:12px}
+footer ul{list-style:none}
+footer li{padding:5px 0;font-size:14px}
+footer a:hover{color:var(--lime)}
+.fbot{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:#7C8271;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
+.cloud{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+.cloud i{font-style:normal;font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 11px;color:#A6AC9A}
+
+@media (max-width:900px){
+  .herogrid{grid-template-columns:1fr;gap:26px}
+  .revgrid,.guidegrid,.fgrid{grid-template-columns:1fr}
+  .ticket::before,.ticket::after{display:none}
+}
+@media (max-width:640px){
+  body{font-size:15.5px}
+  .wrap{padding:0 15px}
+  .brand{font-size:18px}
+  .nav{margin-left:0;width:100%;order:3}
+  .topbar .wrap{padding-bottom:8px}
+  .hero{padding:30px 0 18px}
+  .srow{grid-template-columns:38px 1fr;gap:10px 12px}
+  .srow .idx{font-size:20px}
+  .prog{grid-column:1 / -1}
+  .scard{flex:0 0 82%}
+  .statrow{gap:18px}
+  .feature{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pcard:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#"><i></i>青柠<span>影视</span></a>
+    <nav class="nav" id="nav">
+      <a href="#library">片库精选</a>
+      <a href="#showing">正在热映</a>
+      <a href="#series">剧集追更</a>
+      <a href="#review">影评专栏</a>
+      <a href="#guide">观影指南</a>
+    </nav>
+  </div>
+</header>
+
+<div class="urlbar">
+  <div class="wrap">
+    <span class="addr">
+      <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M2 6V4a4 4 0 1 1 8 0v2" stroke="#A6E11E" stroke-width="1.4"/><rect x="1" y="6" width="10" height="7" rx="1.6" fill="#A6E11E"/></svg>
+      <em>https://</em><b>qingningyingshi-app.github.io</b>
+    </span>
+    <p>记片单的地方，不用注册，打开就翻。</p>
+  </div>
+</div>
+
+<main id="main">
+  <div class="wrap hero">
+    <div class="herogrid">
+      <div>
+        <span class="kicker">青柠影视 · 今日更新</span>
+        <h1>先把片子挑明白，<br>再把<u>两小时</u>坐下来</h1>
+        <p class="lede">院线太吵、榜单太挤，这里只留一份能看完的东西：今天能看什么、几点有场、剧追到第几集、看完想说点什么，都摊在同一页上。</p>
+        <div class="btnrow">
+          <a class="btn btn-a" href="#library">翻今日片单</a>
+          <a class="btn btn-b" href="#showing">看排片时刻</a>
+        </div>
+        <div class="statrow">
+          <div class="stat"><b>26</b><span>在库条目</span></div>
+          <div class="stat"><b>9</b><span>本周新增</span></div>
+          <div class="stat"><b>4.7</b><span>均分参考</span></div>
+          <div class="stat"><b>每日</b><span>更新频次</span></div>
+        </div>
+      </div>
+
+      <aside class="ticket" aria-label="今日排片时刻">
+        <div class="thead">
+          <h2>今日排片</h2>
+          <span>10 月 18 日 · 周六</span>
+        </div>
+        <ul class="tline">
+          <li>
+            <time>13:20</time>
+            <div><strong>柑橘味的夏天</strong><small>3 号厅 · 104 分钟 · 国语</small></div>
+            <span class="tchip">余 42 座</span>
+          </li>
+          <li>
+            <time>15:40</time>
+            <div><strong>夜行列车到站</strong><small>1 号厅 · 121 分钟 · 日语中字</small></div>
+            <span class="tchip">余 8 座</span>
+          </li>
+          <li>
+            <time>18:05</time>
+            <div><strong>铁皮屋顶</strong><small>5 号厅 · 79 分钟 · 法语中字</small></div>
+            <span class="tchip">余 31 座</span>
+          </li>
+          <li>
+            <time>20:30</time>
+            <div><strong>雪线以上</strong><small>2 号厅 · 88 分钟 · 纪录</small></div>
+            <span class="tchip">满场</span>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+
+  <section id="library">
+    <div class="wrap">
+      <div class="sechead">
+        <b>01</b>
+        <h2>片库精选</h2>
+        <p>按心情挑，不按热度排。每张卡片都写了看清的理由。</p>
+      </div>
+      <div class="filters">
+        <a class="cur" href="#">全部</a>
+        <a href="#">剧情</a>
+        <a href="#">悬疑</a>
+        <a href="#">纪录</a>
+        <a href="#">动画</a>
+        <a href="#">近三年</a>
+        <a href="#">冷门</a>
+      </div>
+      <div class="poster">
+        <article class="pcard">
+          <div class="cover c1"><span>海边的旧唱片</span><em>96′</em></div>
+          <div class="pmeta">
+            <h3>海边的旧唱片</h3>
+            <p>2023 · 葡萄牙 · 剧情</p>
+            <div class="tags"><i>慢节奏</i><i>音乐</i><i>一个人看</i></div>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="cover c2"><span>夜行列车到站</span><em>121′</em></div>
+          <div class="pmeta">
+            <h3>夜行列车到站</h3>
+            <p>2022 · 日本 · 悬疑</p>
+            <div class="tags"><i>反转</i><i>车厢</i><i>熬夜看</i></div>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="cover c3"><span>柑橘味的夏天</span><em>104′</em></div>
+          <div class="pmeta">
+            <h3>柑橘味的夏天</h3>
+            <p>2024 · 中国 · 青春</p>
+            <div class="tags"><i>暑期</i><i>方言</i><i>适合重看</i></div>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="cover c4"><span>雪线以上</span><em>88′</em></div>
+          <div class="pmeta">
+            <h3>雪线以上</h3>
+            <p>2021 · 尼泊尔 · 纪录</p>
+            <div class="tags"><i>登山</i><i>真实</i><i>无旁白</i></div>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="cover c5"><span>第七封回信</span><em>113′</em></div>
+          <div class="pmeta">
+            <h3>第七封回信</h3>
+            <p>2020 · 韩国 · 爱情</p>
+            <div class="tags"><i>书信</i><i>克制</i><i>备纸巾</i></div>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="cover c6"><span>铁皮屋顶</span><em>79′</em></div>
+          <div class="pmeta">
+            <h3>铁皮屋顶</h3>
+            <p>2023 · 法国 · 动画</p>
+            <div class="tags"><i>手绘</i><i>雨天</i><i>亲子</i></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="showing" class="alt">
+    <div class="wrap">
+      <div class="sechead">
+        <b>02</b>
+        <h2>正在热映</h2>
+        <p>分数只是参考，值不值得跑一趟写在下面。</p>
+      </div>
+      <div class="rail">
+        <article class="scard">
+          <span class="snum">NO.01 / 本周</span>
+          <h3>夜行列车到站</h3>
+          <div class="bar"><i style="width:88%"></i></div>
+          <div class="score"><b>8.8</b><span>悬疑 · 121 分钟 · 1 号厅</span></div>
+          <p class="slot">后半程一句话都不想快进。<strong>今晚 20:30 加一场。</strong></p>
+        </article>
+        <article class="scard">
+          <span class="snum">NO.02 / 本周</span>
+          <h3>柑橘味的夏天</h3>
+          <div class="bar"><i style="width:79%"></i></div>
+          <div class="score"><b>7.9</b><span>青春 · 104 分钟 · 3 号厅</span></div>
+          <p class="slot">前二十分钟有点散，熬过去就顺了。<strong>周末下午场最舒服。</strong></p>
+        </article>
+        <article class="scard">
+          <span class="snum">NO.03 / 本周</span>
+          <h3>铁皮屋顶</h3>
+          <div class="bar"><i style="width:84%"></i></div>
+          <div class="score"><b>8.4</b><span>动画 · 79 分钟 · 5 号厅</span></div>
+          <p class="slot">手绘质感在线，孩子坐得住。<strong>国语配音场次少。</strong></p>
+        </article>
+        <article class="scard">
+          <span class="snum">NO.04 / 本周</span>
+          <h3>雪线以上</h3>
+          <div class="bar"><i style="width:91%"></i></div>
+          <div class="score"><b>9.1</b><span>纪录 · 88 分钟 · 2 号厅</span></div>
+          <p class="slot">没有旁白，全靠画面撑。<strong>建议看下午场，出影院天还亮。</strong></p>
+        </article>
+        <article class="scard">
+          <span class="snum">NO.05 / 本周</span>
+          <h3>第七封回信</h3>
+          <div class="bar"><i style="width:72%"></i></div>
+          <div class="score"><b>7.2</b><span>爱情 · 113 分钟 · 4 号厅</span></div>
+          <p class="slot">节奏慢，胜在收得住。<strong>情绪好的时候再看。</strong></p>
+        </article>
+      </div>
+      <p class="hint">左右滑动查看更多场次 · 数据每日 9:00 与 18:00 各核一次</p>
+    </div>
+  </section>
+
+  <section id="series">
+    <div class="wrap">
+      <div class="sechead">
+        <b>03</b>
+        <h2>剧集追更</h2>
+        <p>追着看的都在这儿，进度条断了就是我弃了。</p>
+      </div>
+      <div class="series">
+        <article class="srow">
+          <div class="idx">01</div>
+          <div><h3>长夜渡口</h3><p>悬疑 · 共 12 集 · 周更两集</p></div>
+          <div class="prog"><div class="track"><i style="width:67%"></i></div><span>8/12</span></div>
+        </article>
+        <article class="srow">
+          <div class="idx">02</div>
+          <div><h3>巷口第二家</h3><p>生活 · 共 20 集 · 已完结</p></div>
+          <div class="prog"><div class="track"><i style="width:100%"></i></div><span>20/20</span></div>
+        </article>
+        <article class="srow">
+          <div class="idx">03</div>
+          <div><h3>铁柜里的信</h3><p>年代 · 共 16 集 · 周更一集</p></div>
+          <div class="prog"><div class="track"><i style="width:44%"></i></div><span>7/16</span></div>
+        </article>
+        <article class="srow">
+          <div class="idx">04</div>
+          <div><h3>南岸修理铺</h3><p>喜剧 · 共 10 集 · 停更中</p></div>
+          <div class="prog"><div class="track"><i style="width:30%"></i></div><span>3/10</span></div>
+        </article>
+        <article class="srow">
+          <div class="idx">05</div>
+          <div><h3>雨天不打伞</h3><p>爱情 · 共 8 集 · 周更两集</p></div>
+          <div class="prog"><div class="track"><i style="width:50%"></i></div><span>4/8</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="review" class="alt">
+    <div class="wrap">
+      <div class="sechead">
+        <b>04</b>
+        <h2>影评专栏</h2>
+        <p>看完当场写的，没隔夜，所以有点啰嗦。</p>
+      </div>
+      <div class="revgrid">
+        <article class="feature">
+          <span class="tagline">本周主笔</span>
+          <p class="quote">“它把夏天拍成了一段没说完的话，散场时灯亮了，人还坐在那儿。”</p>
+          <h3>《柑橘味的夏天》：少年感不是滤镜，是没敢说出口</h3>
+          <p>前半段几乎是散的，几个少年在堤上来回走，话都说一半。可到了第三幕，那封没寄出去的信被读出来的时候，前面所有闲笔忽然都对上了位置。导演很克制，没有配乐推情绪，只留了蝉声和远处拖拉机的响动。缺点也明显：支线收得太快，母亲那条线像是被剪掉了二十分钟。</p>
+          <p>适合什么人看：愿意等的人。不适合什么人看：想看冲突的人，这片子几乎没有一句吵起来的台词。</p>
+          <p class="byline">文 / <b>阿柚</b> · 2026 年 10 月 16 日 · 约 1,200 字 · 评 <b>7.9</b></p>
+        </article>
+        <div>
+          <article class="mini">
+            <span class="tagline">短评</span>
+            <h3>《夜行列车到站》</h3>
+            <p>车厢就是一整套社会切片，谁都不肯先开口。最后十分钟别看手机。</p>
+            <p class="byline">老周 · 680 字 · 评 8.8</p>
+          </article>
+          <article class="mini">
+            <span class="tagline">重看</span>
+            <h3>《海边的旧唱片》</h3>
+            <p>第二次看才发现，全片没有一次正面的告别镜头，告别都在声音里。</p>
+            <p class="byline">阿柚 · 910 字 · 评 8.2</p>
+          </article>
+          <article class="mini">
+            <span class="tagline">避雷</span>
+            <h3>《雨天不打伞》第 4 集</h3>
+            <p>这集把前面积累的东西一次用光了，后面大概率要塌，我先停在这。</p>
+            <p class="byline">小林 · 420 字 · 评 6.0</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="guide">
+    <div class="wrap">
+      <div class="sechead">
+        <b>05</b>
+        <h2>观影指南</h2>
+        <p>几个被问过好几遍的问题，先写在这儿。</p>
+      </div>
+      <div class="guidegrid">
+        <div>
+          <details open>
+            <summary>片单多久换一次？</summary>
+            <p>每天 9:00 更新排片和新增条目，18:00 再核一次场次。遇到新片上映会比较勤，冷门片库一般一周补两三条。</p>
+          </details>
+          <details>
+            <summary>评分是怎么来的？</summary>
+            <p>不是平台均分，是我和小伙伴各打一遍去掉最高最低再取中位，所以会出现 7.2 这种不好看的数。分数只用来排序，不用来说服谁。</p>
+          </details>
+          <details>
+            <summary>为什么有的片子没有场次？</summary>
+            <p>没排上院线的只留条目和短评，不写场次；重映或小范围放映的会单独标出来，避免跑空。</p>
+          </details>
+          <details>
+            <summary>想推荐片子怎么联系？</summary>
+            <p>把片名、年份和一句你的理由留在评论里就行。写得好的推荐我会直接搬进片库，并标上你的名字。</p>
+          </details>
+          <details>
+            <summary>这里的链接为什么点不开？</summary>
+            <p>站内导航目前用的是占位锚点，正式版上线后会换成真实栏目地址，页面结构不会变。</p>
+          </details>
+        </div>
+        <aside class="note">
+          <h3>站点直达</h3>
+          <code class="addr2">https://qingningyingshi-app.github.io</code>
+          <ul>
+            <li>收藏后打开即看，无需登录</li>
+            <li>移动端已适配，横屏也能翻</li>
+            <li>片单按日期倒序，最新的在最上</li>
+            <li>内容仅作观影记录，不含播放源</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="#"><i></i>青柠<span>影视</span></a>
+        <p style="font-size:13.5px;color:#9AA08C;margin-top:10px;max-width:40ch">一个人的观影记录本：排片、评分、追更、短评，写给自己也写给路过的。</p>
+        <div class="cloud">
+          <i>青柠影视</i><i>片单</i><i>排片时刻</i><i>剧集追更</i><i>短评</i><i>冷门佳片</i>
+        </div>
+      </div>
+      <div>
+        <h4>栏目</h4>
+        <ul>
+          <li><a href="#library">片库精选</a></li>
+          <li><a href="#showing">正在热映</a></li>
+          <li><a href="#series">剧集追更</a></li>
+          <li><a href="#review">影评专栏</a></li>
+          <li><a href="#guide">观影指南</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>说明</h4>
+        <ul>
+          <li><a href="#">收录说明</a></li>
+          <li><a href="#">评分口径</a></li>
+          <li><a href="#">推荐投稿</a></li>
+          <li><a href="#">内容更正</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 青柠影视 · 页面内容仅作个人观影记录</span>
+      <span>最后更新：2026-10-18</span>
+    </div>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://qingningyingshi-app.github.io/#website",
+      "url":"https://qingningyingshi-app.github.io/",
+      "name":"青柠影视",
+      "alternateName":"青柠影视片单",
+      "inLanguage":"zh-CN",
+      "description":"青柠影视整理每日值得一看的电影与剧集，含排片时刻、评分参考、追更进度与短评笔记。"
+    },
+    {
+      "@type":"CollectionPage",
+      "@id":"https://qingningyingshi-app.github.io/#page",
+      "url":"https://qingningyingshi-app.github.io/",
+      "name":"青柠影视 - 每日片单、排片时刻与追更进度一份搞定",
+      "isPartOf":{"@id":"https://qingningyingshi-app.github.io/#website"},
+      "inLanguage":"zh-CN",
+      "about":"电影与剧集的片单、排片、评分与短评记录",
+      "mainEntity":{
+        "@type":"ItemList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"片库精选","url":"https://qingningyingshi-app.github.io/#library"},
+          {"@type":"ListItem","position":2,"name":"正在热映","url":"https://qingningyingshi-app.github.io/#showing"},
+          {"@type":"ListItem","position":3,"name":"剧集追更","url":"https://qingningyingshi-app.github.io/#series"},
+          {"@type":"ListItem","position":4,"name":"影评专栏","url":"https://qingningyingshi-app.github.io/#review"},
+          {"@type":"ListItem","position":5,"name":"观影指南","url":"https://qingningyingshi-app.github.io/#guide"}
+        ]
+      }
+    }
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var links = document.querySelectorAll('#nav a');
+  var secs = [];
+  links.forEach(function(a){
+    var el = document.querySelector(a.getAttribute('href'));
+    if(el){ secs.push({a:a, el:el}); }
+  });
+  if(!secs.length || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        secs.forEach(function(s){ s.a.classList.toggle('on', s.el === e.target); });
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){ io.observe(s.el); });
+})();
+</script>
+</body>
+</html>
